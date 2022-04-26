@@ -7068,7 +7068,7 @@ arc_write_done(zio_t *zio)
 	} else {
 		arc_hdr_clear_flags(hdr, ARC_FLAG_IO_IN_PROGRESS);
 	}
-
+        cv_broadcast(&hdr->b_l1hdr.b_cv);
 	ASSERT(!zfs_refcount_is_zero(&hdr->b_l1hdr.b_refcnt));
 	callback->awcb_done(zio, buf, callback->awcb_private);
 
